@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { CalendarHeader } from './CalenderHeader';
 import {Day} from './Day';
 
 export const Calender = () => {
     const [nav, setNav] = useState(0); 
-    const [dateDisplay, setDateDisplay] = useState('');
-    const [days, setDays] = useState([]);
+    const [clicked, setClicked] = useState();
     const [events, setEvents] = useState(localStorage.getItem('events') ? 
           JSON.parse(localStorage.getItem('events')) : 
           []
@@ -19,53 +17,50 @@ export const Calender = () => {
     const day = dt.getDate(); //ex: 15
     const month = dt.getMonth(); //ex: Aug = 7
     const year = dt.getFullYear(); //ex: 2017
-    const firstDayOfMonth = new Date(year, month, 1); //logging the first day of current nav month
+    //const firstDayOfMonth = new Date(year, month, 1); //logging the first day of current nav month
     const daysInMonth = new Date(year, month + 1, 0).getDate(); //month+1, 0 gives you last day of current nav month
-    const dateString = firstDayOfMonth.toLocaleDateString('en-us', {
+    const firstDayOfMonthStr = new Date(year, month, 1).toLocaleDateString('en-us', {
         weekday: 'long', //long returns string version
         year: 'numeric', 
-        month: 'numeric',
+        month: 'long',
         day: 'numeric',
     });
-   // setDateDisplay(`${dt.toLocaleDateString('en-us', { month: 'long' })} ${year}`);
-    const paddingDays = weekdays.indexOf(dateString.split(', ')[0]); //Get the day of the weekday-> ex: Friday, 1/1/2017
+    const monthStr = (firstDayOfMonthStr.split(', ')[1]).slice(0,-2)
+    const paddingDays = weekdays.indexOf(firstDayOfMonthStr.split(', ')[0]); //Get the day of the weekday-> ex: Friday, January 1, 2021
     //paddingDays = the index of Friday in weekdays array
 
-    //[]all paddings days will be empty squares
-    //[]all normal days will render with functionality
-    //[]when normal day is clicked, open form to input event
-    //[]create a nested object array with each day and it's values
     const daysArr = [];
     for(let i = 1; i <= paddingDays + daysInMonth; i++) { 
       const dateString = `${month + 1}/${i - paddingDays}/${year}`; // ' 7/7/2017 '
       if (i > paddingDays) { 
         daysArr.push(
           {
-            value: (i - paddingDays),
+            date: (i - paddingDays),
             isToday: (i - paddingDays === day && nav === 0),
-            date: dateString
+            value: dateString
           })
         }
       else if (i < paddingDays){
         daysArr.push (
           {
-            value: 'padding',
+            date: 'padding',
             isToday:false,
-            date: ''
+            value: ''
           }
         )
       }
       //setDays(daysArr)
     }
-    console.log('DateDisplay in calender', dateDisplay)
     return (
         <div id="container">
-            {console.log(nav)}
-            <CalendarHeader
-                dateDisplay={dateDisplay}          
-                OnNext={() => setNav(nav + 1)}
-                onBack={() => setNav(nav - 1)}
-            />
+            <div id="header">
+                <div id="monthDisplay">{monthStr}</div>
+                <div>
+                    <button onClick={() => setNav(nav - 1)} id="backButton">Back</button>
+                    <button onClick={() => setNav(nav + 1)} id="nextButton">Next</button>
+                </div>
+            </div>
+
             <div id="weekdays">
                 <div>Sunday</div>
                 <div>Monday</div>
@@ -77,7 +72,12 @@ export const Calender = () => {
             </div>
 
             <div id="calender">
-                {daysArr.map((day, index) => (<Day key={index} day={day} onClick={() => console.log("Hello!")} />))}
+            {daysArr.map((day, index) => (
+            <Day key={index} day={day} onClick={() => { 
+                if (day.date !== 'padding'){ 
+                    setClicked(day.value);
+                }
+            }}/>))}
             </div>
         </div>
     );
