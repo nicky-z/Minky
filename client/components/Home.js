@@ -7,9 +7,9 @@ import {connect} from 'react-redux'
 export const Home = props => {
   const {username} = props
   console.log(localStorage)
-  //const getUser = JSON.parse(localStorage.getItem(username))
+  const getUser = JSON.parse(localStorage.getItem(username))
   const [calTitle, setCalTitle] = useState('');
-  //localStorage.removeItem(username)
+
   return (
     <div>
       <h3>Welcome, {username}</h3>
@@ -23,7 +23,8 @@ export const Home = props => {
 
         <button 
           onClick={() => {
-            localStorage.setItem('calender', calTitle)
+            getUser.calender = calTitle
+            localStorage.setItem(username, JSON.stringify(getUser))
           }}
           id="saveButton">Save</button>
     </div>

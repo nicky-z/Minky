@@ -5,11 +5,13 @@ import {logout} from '../store'
 
 const Navbar = ({handleClick, isLoggedIn}, props) => {
   const {username} = props
-  //const getUser = JSON.parse(localStorage.getItem(username))
-  //const calTitle = getUser.calender
+  //let getUser = JSON.parse(localStorage.getItem(username))
+  console.log('navbar',JSON.parse(localStorage.getItem('rarity')).calender)
+  let calenderTitle = JSON.parse(localStorage.getItem('rarity')).calender
+  console.log(calenderTitle)
 return(
   <div>
-    <h2>{localStorage.getItem('calender')}</h2>
+    <h2>{calenderTitle}</h2>
     <nav>
       {isLoggedIn ? (
         <div>
