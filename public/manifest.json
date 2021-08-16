@@ -1,0 +1,16 @@
+{
+    "short_name": "Cycle",
+    "name": "Cycle App",
+    "icons": [
+        {
+            "src": "/images/calender.png",
+            "type": "image/png",
+            "sizes": "900x900",
+            "purpose": "any maskable"
+        }
+    ],
+    "start_url": ".",
+    "display": "standalone",
+    "theme_color": "#aebbc4",
+    "background_color": "#e4e9ec"
+}
