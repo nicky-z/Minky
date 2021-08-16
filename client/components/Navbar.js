@@ -6,8 +6,8 @@ import {logout} from '../store'
 const Navbar = ({handleClick, isLoggedIn}, props) => {
   const {username} = props
   //let getUser = JSON.parse(localStorage.getItem(username))
-  console.log('navbar',JSON.parse(localStorage.getItem('rarity')).calender)
-  let calenderTitle = JSON.parse(localStorage.getItem('rarity')).calender
+  //console.log('navbar',JSON.parse(localStorage.getItem('rarity')).calender)
+  let calenderTitle = JSON.parse(localStorage.getItem(username)).calender || ''
   console.log(calenderTitle)
 return(
   <div>
