@@ -1,13 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import {Day} from './Day';
+import { DeleteEventModal } from './DeleteEvent';
+import { NewEventModal } from './NewEvent';
 
 export const Calender = () => {
     const [nav, setNav] = useState(0); 
-    const [clicked, setClicked] = useState();
-    const [events, setEvents] = useState(localStorage.getItem('events') ? 
+    const [clickedDay, setClickedDay] = useState();
+    const [events, setEvents] = useState(localStorage.getItem('events') ?  //getting all events for all days from localStorage
           JSON.parse(localStorage.getItem('events')) : 
           []
       );
+    const eventsOnDay = date => events.find(event => event.date === date); //getting events for a specific day from events[]
+    useEffect(() => {
+        localStorage.setItem('events', JSON.stringify(events));
+      }, [events]); //everytime events state changes, useEffect sets them onto the localStorage
 
     const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
     const dt = new Date(); //returns new date object of current date & time
@@ -20,7 +26,7 @@ export const Calender = () => {
     //const firstDayOfMonth = new Date(year, month, 1); //logging the first day of current nav month
     const daysInMonth = new Date(year, month + 1, 0).getDate(); //month+1, 0 gives you last day of current nav month
     const firstDayOfMonthStr = new Date(year, month, 1).toLocaleDateString('en-us', {
-        weekday: 'long', //long returns string version
+        weekday: 'long',
         year: 'numeric', 
         month: 'long',
         day: 'numeric',
@@ -36,7 +42,8 @@ export const Calender = () => {
         daysArr.push(
           {
             date: (i - paddingDays),
-            isToday: (i - paddingDays === day && nav === 0),
+            event: eventsOnDay(dateString),
+            isToday: (nav === 0 && i - paddingDays === day),
             value: dateString
           })
         }
@@ -44,7 +51,8 @@ export const Calender = () => {
         daysArr.push (
           {
             date: 'padding',
-            isToday:false,
+            event: null,
+            isToday: false,
             value: ''
           }
         )
@@ -75,10 +83,31 @@ export const Calender = () => {
             {daysArr.map((day, index) => (
             <Day key={index} day={day} onClick={() => { 
                 if (day.date !== 'padding'){ 
-                    setClicked(day.value);
+                    setClickedDay(day.value); //setting the date value for event functionality
                 }
             }}/>))}
             </div>
-        </div>
+    
+    {clickedDay && !eventsOnDay(clickedDay) && //if day has been clicked, and no events on day, open new event form
+        <NewEventModal 
+          onClose={() => setClickedDay(null)} //if closed, user has changed their mind, set date on state to null
+          onSave={title => { //if saved, save event & it's date onto events[] /-> useEffect -> localStorage
+            setEvents([ ...events, { title, date: clickedDay }]);
+            setClickedDay(null);//set clicked day to null
+          }}
+        />
+      }
+
+      {clickedDay && eventsOnDay(clickedDay) && //if day has been clicked and yes events on day
+        <DeleteEventModal 
+          eventText={eventForDate(clickedDay).title} //get title of event
+          onClose={() => setClickedDay(null)} //if closed, set clicked day to null
+          onDelete={() => { //if delete, remove event from events arr
+            setEvents(events.filter(e => e.date !== clickedDay));
+            setClickedDay(null); // set clicked date to null
+          }}
+        />
+      }
+    </div>
     );
 }

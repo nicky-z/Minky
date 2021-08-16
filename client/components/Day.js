@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 
-export const Day = ({ day }) => {
-    const className = `day ${day.value === 'padding' ? 'padding' : ''} ${day.isCurrentDay ? 'currentDay' : ''}`;
-    return (
-        <div className={className}>
-            {day.value === 'padding' ? '' : day.value}
-        </div>
-    );
-  };
+export const Day = ({ day, onClick }) => {
+  const className = `day ${day.date === 'padding' ? 'padding' : ''} ${day.isToday ? 'currentDay' : ''}`;
+  return (
+    <div onClick={onClick} className={className}>
+      {day.date === 'padding' ? '' : day.date}
+      {day.event && <div className='event'>{day.event.title}</div>}
+    </div>
+  );
+};
