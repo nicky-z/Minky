@@ -10,7 +10,7 @@ export const NewEventModal = ({ onSave, onClose }) => {
         <h2>New Event</h2>
 
         <input 
-          className={error ? 'error' : ''}
+          className={error ? 'error' : ''} //if error is 'true', classname is error
           value={title} 
           onChange={e => setTitle(e.target.value)} 
           id="eventTitleInput" 
