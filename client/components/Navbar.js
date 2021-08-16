@@ -3,39 +3,43 @@ import {connect} from 'react-redux'
 import {Link, Redirect} from 'react-router-dom'
 import {logout} from '../store'
 
-const Navbar = ({handleClick, isLoggedIn}, props) => {
-  const {username} = props
-  //let getUser = JSON.parse(localStorage.getItem(username))
-  //console.log('navbar',JSON.parse(localStorage.getItem('rarity')).calender)
-  let User = localStorage.getItem(username)
-  console.log('on refresh',User)
-    if(User){ //if user is undefined & stuff in localstorage, aka login to new account
-      User = JSON.parse(localStorage.getItem(username)) //user is defined, will not call again until logging out 
+export const Navbar = props => {
+  localStorage.removeItem(undefined)
+  let calenderName = 'Calender'
+  if(props.isLoggedIn) {
+    const {username} = props
+    let User = localStorage.getItem(username)
+    if(User !== undefined&& User !==null){ 
+      console.log('parsing localStorage')
+      User = JSON.parse(localStorage.getItem(username)) //user is defined, will not call again unless logged out 
     }
     else {
-      localStorage.setItem( username , JSON.stringify(
-        {
-          calender: '',
-          testevent: []
+      console.log('setting up default')
+      localStorage.setItem( username , JSON.stringify({
+          calender: 'Calender',
+          event: []
         }
         ));
-        User = {
-          calender: '',
-          testevent: []
-        }
+      User = {
+        calender: 'Calender',
+        event: []
+      }
     }
-  let calenderTitle = User.calender
-
+    if(username){
+      calenderName = JSON.parse(localStorage.getItem(username)).calender
+    }
+  }
 return(
   <div>
-    <h2>{calenderTitle}</h2>
+    <h2>{calenderName}</h2>
     <nav>
-      {isLoggedIn ? (
+      {props.isLoggedIn ? (
         <div>
           {/* The navbar will show these links after you log in */}
+          <Redirect to="/home"/>
           <Link to="/home">Home</Link>
           <Link to ="/calender">Calender</Link>
-          <a href="#" onClick={handleClick}>
+          <a href="#" onClick={props.handleClick}>
             Logout
           </a>
         </div>
@@ -57,8 +61,8 @@ return(
  */
 const mapState = state => {
   return {
+    username: state.auth.username,
     isLoggedIn: !!state.auth.id,
-    username: state.auth.username
   }
 }
 

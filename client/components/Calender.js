@@ -5,41 +5,22 @@ import { NewEventModal } from './NewEvent';
 import {connect} from 'react-redux'
 
 export const Calender = props => {
-  //if username in localStorage, then get the object
-  //if not, then create a beginning model
-  //editing the calender title re sets the item in localStorage with just the calender changed
-  //editing the events resets the events, taken care of by the 
+
   const {username} = props
   console.log(localStorage)
-  let User = localStorage.getItem(username)
-  console.log('on refresh',User)
-    if(User){ //if user is undefined & stuff in localstorage, aka login to new account
-      User = JSON.parse(localStorage.getItem(username)) //user is defined, will not call again until logging out 
-    }
-    else {
-      localStorage.setItem( username , JSON.stringify(
-        {
-          calender: 'Testing Title',
-          testevent: []
-        }
-        ));
-        User = {
-          calender: 'Testing Title',
-          testevent: []
-        }
-    }
-    console.log('Normal',User)
+  let User = JSON.parse(localStorage.getItem(username))
+
     const [nav, setNav] = useState(0); 
     const [clickedDay, setClickedDay] = useState();
     //const [events, setEvents] = useState(localStorage.getItem('events') ?  JSON.parse(localStorage.getItem('events')) : []);
-    const [events, setEvents] = useState(User.testevent);
+    const [events, setEvents] = useState(User.event);
       //^^^events is an array, starts with getting all events for all days from localStorage
     
     const eventsOnDay = date => events.find(event => event.date === date); //events for a specific day from in events objects array
     
     useEffect(() => {
-      User.testevent = events;
-      console.log('After Changing events', User);
+      User.event = events;
+      // console.log('After Changing events', User);
       localStorage.setItem(username, JSON.stringify(User));}, [events]); //everytime events state changes, useEffect sets them onto the localStorage
     
     const weekdays = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
