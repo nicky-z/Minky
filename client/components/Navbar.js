@@ -3,7 +3,11 @@ import {connect} from 'react-redux'
 import {Link, Redirect} from 'react-router-dom'
 import {logout} from '../store'
 
-const Navbar = ({handleClick, isLoggedIn}) => (
+const Navbar = ({handleClick, isLoggedIn}, props) => {
+  const {username} = props
+  //const getUser = JSON.parse(localStorage.getItem(username))
+  //const calTitle = getUser.calender
+return(
   <div>
     <h2>{localStorage.getItem('calender')}</h2>
     <nav>
@@ -28,13 +32,15 @@ const Navbar = ({handleClick, isLoggedIn}) => (
     <hr />
   </div>
 )
+}
 
 /**
  * CONTAINER
  */
 const mapState = state => {
   return {
-    isLoggedIn: !!state.auth.id
+    isLoggedIn: !!state.auth.id,
+    username: state.auth.username
   }
 }
 

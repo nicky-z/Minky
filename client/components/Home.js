@@ -6,9 +6,10 @@ import {connect} from 'react-redux'
  */
 export const Home = props => {
   const {username} = props
-  console.log(props.username)
+  console.log(localStorage)
+  //const getUser = JSON.parse(localStorage.getItem(username))
   const [calTitle, setCalTitle] = useState('');
-
+  //localStorage.removeItem(username)
   return (
     <div>
       <h3>Welcome, {username}</h3>
