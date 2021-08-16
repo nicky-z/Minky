@@ -2,10 +2,25 @@ body {
   font-family: sans-serif;
   display: flex;
   margin-top: 50px;
-  justify-content: center;
-  background-color: #FFFCFF;
+  margin-left: 20px;
+  justify-content: left;
+  background-color: #e4e9ec;
 }
-
+h2 {
+  font-family:sans-serif;
+	font-size: 33px;
+  font-weight: normal;
+  font-style:italic;
+	color: #c3d0d9;
+	text-align:center;
+}
+h3 {
+  font-family:sans-serif;
+	font-size: 17px;
+  font-weight:normal;
+	color: #aebbc4;
+	text-align:left;
+}
 a {
   text-decoration: none;
 }
@@ -17,12 +32,16 @@ label {
 nav a {
   display: inline-block;
   margin: 1em;
-
+  margin-left: 2em;
+  margin-left: 2em;
+  color: #aab6be;
 }
-
+nav a:hover{
+  text-shadow: 0px 0px 5px #90c7e9;
+}
 form div {
   margin: 1em;
-  display: inline-block;
+  display: inline-flexbox;
 }
 
 button {
@@ -30,24 +49,27 @@ button {
   margin-left: 2.5px;
   width: 75px;
   cursor: pointer;
-  box-shadow: 0px 0px 2px gray;
+  box-shadow: 0px 0px 2px #c3d0d9;
   border: none;
   outline: none;
   padding: 5px;
   border-radius: 5px;
-  color: white;
+  background-color:#a8bec9 ;
+  color: #e4e9ec;
 }
-
+button:hover {
+  box-shadow: 0px 0px 5px #90c7e9;
+}
 #header {
   padding: 10px;
-  color: #d36c6c;
+  color: #c3d0d9;
   font-size: 26px;
   font-family: sans-serif;
   display: flex;
   justify-content: space-between;
 }
 #header button {
-  background-color:#92a1d1;
+  background-color:#c3d0d9;
 }
 #container {
   width: 770px;
@@ -55,7 +77,7 @@ button {
 #weekdays {
   width: 100%;
   display: flex;
-  color: #247BA0;
+  color: #eae7e7;
 }
 #weekdays div {
   width: 100px;
@@ -73,33 +95,37 @@ button {
   height: 100px;
   cursor: pointer;
   box-sizing: border-box;
-  background-color: white;
+  background-color: #c3d0d9;
   margin: 5px;
-  box-shadow: 0px 0px 3px #CBD4C2;
+  box-shadow: 0px 0px 3px #c3d0d9;
   display: inline-flex;
   flex-direction: column;
   justify-content: space-between;
 }
 .day:hover {
-  background-color: #e8faed;
+  background-color: #e8f4fa;
+  box-shadow: 0px 0px 5px #90c7e9;
 }
 
 .day + .currentDay {
   background-color:#e8f4fa;
+  box-shadow: 0px 0px 5px #90c7e9;
 }
+
 .event {
   font-size: 10px;
   padding: 3px;
-  background-color: #58bae4;
-  color: white;
+  background-color: #a4b0b8;
+  color: rgb(0, 0, 0);
   border-radius: 5px;
   max-height: 55px;
   overflow: hidden;
 }
 .padding {
   cursor: default !important;
-  background-color: #FFFCFF !important;
+  background-color: #c3d0d9 !important;
   box-shadow: none !important;
+  justify-content: space-between;
 }
 #newEventModal, #deleteEventModal {
   z-index: 20;
@@ -128,9 +154,11 @@ button {
 }
 #cancelButton, #deleteButton {
   background-color: #d36c6c;
+  color:#e8f4fa
 }
 #saveButton, #closeButton {
-  background-color: #92a1d1;
+  background-color: #92bddb;
+  color:#f4f8fa
 }
 #eventText {
   font-size: 14px;
@@ -142,6 +170,6 @@ button {
   width: 100vw;
   height: 100vh;
   position: absolute;
-  background-color: rgba(0,0,0,0.8);
+  background-color: rgba(0, 0, 0, 0.8);
 }
 
